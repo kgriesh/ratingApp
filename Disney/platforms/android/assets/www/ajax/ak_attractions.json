@@ -1,1 +1,82 @@
-[{"name":"Conservation Station","permalink":"conservation-station","short_name":"Conservation Station"},{"name":"DINOSAUR","permalink":"dinosaur","short_name":"DINOSAUR"},{"name":"Expedition Everest","permalink":"expedition-everest","short_name":"Expedition Everest"},{"name":"Festival of the Lion King","permalink":"festival-of-the-lion-king","short_name":"Festival Lion King"},{"name":"Finding Nemo - The Musical","permalink":"finding-nemo-the-musical","short_name":"Finding Nemo Musical"},{"name":"Flights of Wonder","permalink":"flights-of-wonder","short_name":"Flights of Wonder"},{"name":"It's Tough to Be a Bug!","permalink":"tough-to-be-a-bug","short_name":"It's Tough to Be a Bug"},{"name":"Kali River Rapids","permalink":"kali-river-rapids","short_name":"Kali River Rapids"},{"name":"Kilimanjaro Safaris Expedition","permalink":"kilimanjaro-safaris","short_name":"Kilimanjaro Safaris"},{"name":"Maharajah Jungle Trek","permalink":"maharajah-jungle-trek","short_name":"Maharajah Jungle Trek"},{"name":"Pangani Forest Exploration Trail","permalink":"pangani-forest-exploration-trail","short_name":"Pangani Forest Trail"},{"name":"Primeval Whirl","permalink":"primeval-whirl","short_name":"Primeval Whirl"},{"name":"The Boneyard","permalink":"boneyard","short_name":"Boneyard"},{"name":"TriceraTop Spin","permalink":"triceratop-spin","short_name":"TriceraTop Spin"},{"name":"Wildlife Express Train: Africa Station","permalink":"wildlife-express-train-africa-station","short_name":"Wildlife Train: Africa"},{"name":"Wildlife Express Train: Rafiki's Planet Watch Station","permalink":"wildlife-express-train-rafikis-planet-watch-station","short_name":"Wildlife Train: Rafiki's"}]
+[
+  {
+    "name": "Conservation Station",
+    "permalink": "conservation-station",
+    "short_name": "Conservation Station"
+  },
+  {
+    "name": "DINOSAUR",
+    "permalink": "dinosaur",
+    "short_name": "DINOSAUR"
+  },
+  {
+    "name": "Expedition Everest",
+    "permalink": "expedition-everest",
+    "short_name": "Expedition Everest"
+  },
+  {
+    "name": "Festival of the Lion King",
+    "permalink": "festival-of-the-lion-king",
+    "short_name": "Festival Lion King"
+  },
+  {
+    "name": "Finding Nemo - The Musical",
+    "permalink": "finding-nemo-the-musical",
+    "short_name": "Finding Nemo Musical"
+  },
+  {
+    "name": "Flights of Wonder",
+    "permalink": "flights-of-wonder",
+    "short_name": "Flights of Wonder"
+  },
+  {
+    "name": "It's Tough to Be a Bug!",
+    "permalink": "tough-to-be-a-bug",
+    "short_name": "It's Tough to Be a Bug"
+  },
+  {
+    "name": "Kali River Rapids",
+    "permalink": "kali-river-rapids",
+    "short_name": "Kali River Rapids"
+  },
+  {
+    "name": "Kilimanjaro Safaris Expedition",
+    "permalink": "kilimanjaro-safaris",
+    "short_name": "Kilimanjaro Safaris"
+  },
+  {
+    "name": "Maharajah Jungle Trek",
+    "permalink": "maharajah-jungle-trek",
+    "short_name": "Maharajah Jungle Trek"
+  },
+  {
+    "name": "Pangani Forest Exploration Trail",
+    "permalink": "pangani-forest-exploration-trail",
+    "short_name": "Pangani Forest Trail"
+  },
+  {
+    "name": "Primeval Whirl",
+    "permalink": "primeval-whirl",
+    "short_name": "Primeval Whirl"
+  },
+  {
+    "name": "The Boneyard",
+    "permalink": "boneyard",
+    "short_name": "Boneyard"
+  },
+  {
+    "name": "TriceraTop Spin",
+    "permalink": "triceratop-spin",
+    "short_name": "TriceraTop Spin"
+  },
+  {
+    "name": "Wildlife Express Train: Africa Station",
+    "permalink": "wildlife-express-train-africa-station",
+    "short_name": "Wildlife Train: Africa"
+  },
+  {
+    "name": "Wildlife Express Train: Rafiki's Planet Watch Station",
+    "permalink": "wildlife-express-train-rafikis-planet-watch-station",
+    "short_name": "Wildlife Train: Rafiki's"
+  }
+]

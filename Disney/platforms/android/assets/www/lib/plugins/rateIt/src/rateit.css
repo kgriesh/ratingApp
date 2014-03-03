@@ -1,5 +1,4 @@
-div.rateit
-{
+div.rateit {
     display: -moz-inline-box;
     display: inline-block;
     position: relative;
@@ -11,8 +10,7 @@ div.rateit
     -webkit-touch-callout: none;
 }
 
-div.rateit div.rateit-range
-{
+div.rateit div.rateit-range {
     position: relative;
     display: -moz-inline-box;
     display: inline-block;
@@ -21,61 +19,50 @@ div.rateit div.rateit-range
 }
 
 /* for IE 6 */
-* html div.rateit, * html div.rateit div.rateit-range
-{
+* html div.rateit, * html div.rateit div.rateit-range {
     display: inline;
 }
 
 /* for IE 7 */
-* + html div.rateit, * + html div.rateit div.rateit-range
-{
+* + html div.rateit, * + html div.rateit div.rateit-range {
     display: inline;
 }
 
-div.rateit div.rateit-hover, div.rateit div.rateit-selected
-{
+div.rateit div.rateit-hover, div.rateit div.rateit-selected {
     position: absolute;
     left: 0px;
 }
 
-div.rateit div.rateit-hover-rtl, div.rateit div.rateit-selected-rtl
-{
+div.rateit div.rateit-hover-rtl, div.rateit div.rateit-selected-rtl {
     left: auto;
     right: 0px;
 }
 
-div.rateit div.rateit-hover
-{
+div.rateit div.rateit-hover {
     background: url(star.gif) left -32px;
 }
 
-div.rateit div.rateit-hover-rtl
-{
+div.rateit div.rateit-hover-rtl {
     background-position: right -32px;
 }
 
-div.rateit div.rateit-selected
-{
+div.rateit div.rateit-selected {
     background: url(star.gif) left -16px;
 }
 
-div.rateit div.rateit-selected-rtl
-{
+div.rateit div.rateit-selected-rtl {
     background-position: right -16px;
 }
 
-div.rateit div.rateit-preset
-{
+div.rateit div.rateit-preset {
     background: url(star.gif) left -48px;
 }
 
-div.rateit div.rateit-preset-rtl
-{
+div.rateit div.rateit-preset-rtl {
     background: url(star.gif) left -48px;
 }
 
-div.rateit div.rateit-reset
-{
+div.rateit div.rateit-reset {
     background: url(delete.gif) 0 0;
     width: 16px;
     height: 16px;
@@ -84,7 +71,6 @@ div.rateit div.rateit-reset
     float: left;
 }
 
-div.rateit div.rateit-reset:hover
-{
+div.rateit div.rateit-reset:hover {
     background-position: 0 -16px;
 }
