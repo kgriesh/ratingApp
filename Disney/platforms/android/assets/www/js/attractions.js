@@ -1,13 +1,15 @@
-//localStorage.clear();
-//get the selected park
-var park = sessionStorage.getItem('park');
-var url = "../ajax/" + park + "_attractions.json";
-console.log(url);
-//url = "http://touringplans.com/magic-kingdom/attractions.json";
 
-//Interate through all ratings to provide an average for the park
-function doLoad() {
 
+$(document).on('pagebeforeshow', '#attractionList', function(){   
+  console.log("pagebeforeshow attractions.js");
+
+  //localStorage.clear();
+  //get the selected park
+  var park = sessionStorage.getItem('park');
+  var theUrl = park + "_attractions.json";
+
+  theUrl = "http://touringplans.com/magic-kingdom/attractions.json";
+  console.log("theurl:"+theUrl);
 
   //set the header value
   if (park == "mk") {
@@ -23,8 +25,76 @@ function doLoad() {
     $('h1').append("Hollywood Studios");
   }
 
-  calcAverage();
+  $.ajax({url: theUrl,
+        dataType: "json",
+        async: true,
+        success: function (result) {
+          console.log("success!");
+          ajax.parseJSON(result);
+        },
+        error: function (request,error) {
+            alert('Network error has occurred please try again!');
+        }
+    }); 
+
+ });
+
+var ajax = {  
+  parseJSON:function(data){
+    console.log("in getJSON: " + data);
+    var output = '';
+    var items = []; //put all link names into an array
+    var count = 0;
+    var rating;
+    $.each(data, function (index, val) {
+      //add each value to the output buffer (we also have access to the other properties of this object: id, start, and end)
+      output += '<li>' + val.short_name + '<span class="ui-li-aside" style="padding:0px 0px 0px 0px;"><div  id="testrate' + count + '" class="rateit bigstars" ></div></span></li>';
+      items.push(val.permalink);
+      count++;
+    });
+    //now append the buffered output to the listview and either refresh the listview or create it (meaning have jQuery Mobile style the list)
+    $('#mylist').append(output).listview('refresh');
+    $('.rateit').rateit();
+    count = 0;
+    $.each(data, function (index, val) {
+      console.log("index:" + index);
+      //get the saved value if there is one
+      try {
+        rating = 0;
+        if (localStorage.getItem(items[index])) {
+          rating = JSON.parse(localStorage.getItem(items[index])).rating;
+        }
+        console.log("rating:" + rating);
+        $("#testrate" + count).rateit('value', rating);
+      } catch (ex) { console.log("error:" + ex) }
+
+      //save the rating and park info
+      $("#testrate" + count).bind('rated', function (event, value) {
+        var attraction = {};
+        attraction.name = items[index];
+        attraction.rating = value;
+        attraction.park = park;
+        localStorage.setItem(items[index], JSON.stringify(attraction));
+        //recalc the average
+        calcAverage();
+
+      });
+      
+      $("#testrate" + count).bind('reset', function () {
+        //remove from localStorage
+        //TODO set the rating to zero instead of removing the object?
+        localStorage.removeItem(items[index]);
+        calcAverage();
+      });
+      count++;
+    });
+
+
+    calcAverage();
+  }
 }
+
+
 
 function calcAverage() {
   //calculate the average
@@ -60,48 +130,6 @@ function calcPercent() {
 
 //}
 
-//get attractions
-$.getJSON(url, function (data) {
-  var output = '';
-  var items = []; //put all link names into an array
-  var count = 0;
-  $.each(data, function (index, val) {
-    //add each value to the output buffer (we also have access to the other properties of this object: id, start, and end)
-    output += '<li>' + val.short_name + '<span class="ui-li-aside" style="padding:0px 0px 0px 0px;"><div  id="testrate' + count + '" class="rateit bigstars" ></div></span></li>';
-    items.push(val.permalink);
-    count++;
-  });
-  //now append the buffered output to the listview and either refresh the listview or create it (meaning have jQuery Mobile style the list)
-  $('#mylist').append(output).listview('refresh');
-  $('.rateit').rateit();
-  var count = 0;
-  $.each(data, function (index, val) {
-    //get the saved value if there is one
-    try {
-      var rating = JSON.parse(localStorage.getItem(items[index])).rating;
-      $("#testrate" + count).rateit('value', rating);
-    } catch (ex) { /*swallow*/
-    }
 
-    //save the rating and park info
-    $("#testrate" + count).bind('rated', function (event, value) {
-      var attraction = {};
-      attraction.name = items[index];
-      attraction.rating = value;
-      attraction.park = park;
-      localStorage.setItem(items[index], JSON.stringify(attraction));
-      //recalc the average
-      calcAverage();
-
-    });
-    $("#testrate" + count).bind('reset', function () {
-      //remove from localStorage
-      //TODO set the rating to zero instead of removing the object?
-      localStorage.removeItem(items[index]);
-      calcAverage();
-    });
-    count++;
-  });
-});
 
 

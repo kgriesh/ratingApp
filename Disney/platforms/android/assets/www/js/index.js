@@ -16,6 +16,19 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+
+$(document).ready(function() {
+  console.log("index.js document ready!!!");
+  $("#mk_button").click(function() {
+    console.log("clicked!");
+    window.sessionStorage.setItem('park', 'mk');
+    //alert("clicked!");
+
+  });
+});
+
+
 var app = {
   // Application Constructor
   initialize: function () {
@@ -38,13 +51,13 @@ var app = {
     function getHref(aElem, park) {
       //set the selected park in the session
       window.sessionStorage.setItem('park', park);
-      aElem.href = "/html/attractionList.html";
+      aElem.href = "attractionList.html";
     }
 
     jQuery('#mkbutton').bind('click', function (event) {
       alert("hello?");
       window.sessionStorage.setItem('park', park);
-      aElem.href = "/html/attractionList.html";
+      aElem.href = "attractionList.html";
     });
   },
   // Update DOM on a Received Event
