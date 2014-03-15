@@ -25,13 +25,14 @@
           content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"/>
     <link rel="stylesheet" type="text/css" href="css/index.css"/>
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css">
+    <link rel="stylesheet" href="lib/plugins/rateIt/src/rateit.css">
+
     <script type="text/javascript" src="cordova.js"></script>
-
-
     <script src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
-    <script src="lib/plugins/rateIt/src/jquery.rateit.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+    <script src="lib/plugins/rateIt/src/jquery.rateit.min.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/attractions.js"></script>
     <script type="text/javascript">
         //app.initialize();
         document.addEventListener("deviceready", onDeviceReady, false);
@@ -62,15 +63,40 @@
     <div data-role="content">
         <ul data-role="listview" data-inset="true" data-dividertheme="c">
             <!--<li data-role="list-divider">Choose ...</li> -->
-            <!--<li><input type="button" id="mkbutton" rel="external">Magic Kingdom</li>-->
-            <li><a href="attractionList.html" id="mk_button" rel="external">Magic Kingdom</a></li>
-            <li><a href="#" rel="external">Animal Kingdom</a></li>
-            <li><a href="#" rel="external">Epcot</a></li>
-            <li><a href="#" rel="external">Hollywood Studios</a></li>
+            <!--<li><input type="button" id="mk_button" rel="external">Magic Kingdom</li>-->
+            <li><a href="#attractionList" id="mk_button" rel="external">Magic Kingdom</a></li>
+            <li><a href="#attractionList" id="ak_button">Animal Kingdom</a></li>
+            <li><a href="#attractionList" id="ep_button">Epcot</a></li>
+            <li><a href="#attractionList" id="hs_button">Hollywood Studios</a></li>
         </ul>
     </div>
+
+    <div id="clearAll">Clear all</div>
+    
+   
     <div data-role="footer">
     </div>
+</div>
+
+<div data-role="page" data-theme="c" id="attractionList">
+    
+    <div id="theHeader" data-role="header" data-theme="c">
+        <h1></h1>
+    </div>
+    <div data-role="content">
+        Average rating is <span id="average"></span> out of 5
+        <div>
+            <span id="testratevalue"></span>
+            <span id="testratehover"></span>
+        </div>
+        <ul id="mylist" data-role="listview" data-inset="true" data-dividertheme="b">
+        </ul>
+    </div>
+    
+    <div id="clearAll" type-"button" value="Clear all values">
+
+    <div data-role="footer">
+    </div>        
 </div>
 
 </body>

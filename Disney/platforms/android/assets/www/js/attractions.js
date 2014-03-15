@@ -1,36 +1,29 @@
 
 
-$(document).on('pagebeforeshow', '#attractionList', function(){   
+$(document).on('pagebeforeshow', '#attractionList', function(event){   
   console.log("pagebeforeshow attractions.js");
+  //console.log(data.prevPage.attr('park'));
 
+  //var parameters = $(this).data("url").split("?")[1];
   //localStorage.clear();
   //get the selected park
-  var park = sessionStorage.getItem('park');
-  var theUrl = park + "_attractions.json";
-
-  theUrl = "http://touringplans.com/magic-kingdom/attractions.json";
-  console.log("theurl:"+theUrl);
+  var park = sessionStorage.park;
+  var theUrl;
+  console.log("park:"+park);
 
   //set the header value
-  if (park == "mk") {
-    $('h1').append("Magic Kingdom");
-  }
-  else if (park == "ak") {
-    $('h1').append("Animal Kingdom");
-  }
-  else if (park == "ep") {
-    $('h1').append("Epcot");
-  }
-  else if (park == "hs") {
-    $('h1').append("Hollywood Studios");
-  }
+  $('h1').empty();
+  $('h1').append(sessionStorage.parkTitle);
 
+
+  theUrl = "http://touringplans.com/" + sessionStorage.parkUrl + "/attractions.json";
+  console.log("theUrl:"+theUrl);
   $.ajax({url: theUrl,
         dataType: "json",
         async: true,
         success: function (result) {
           console.log("success!");
-          ajax.parseJSON(result);
+          ajax.parseJSON(result, park);
         },
         error: function (request,error) {
             alert('Network error has occurred please try again!');
@@ -38,76 +31,95 @@ $(document).on('pagebeforeshow', '#attractionList', function(){
     }); 
 
  });
-
+ 
 var ajax = {  
-  parseJSON:function(data){
-    console.log("in getJSON: " + data);
+  parseJSON:function(data, park){
     var output = '';
     var items = []; //put all link names into an array
     var count = 0;
+    var attraction;
     var rating;
     $.each(data, function (index, val) {
-      //add each value to the output buffer (we also have access to the other properties of this object: id, start, and end)
-      output += '<li>' + val.short_name + '<span class="ui-li-aside" style="padding:0px 0px 0px 0px;"><div  id="testrate' + count + '" class="rateit bigstars" ></div></span></li>';
+      //add each value to the output buffer
+      output += '<li>' + val.short_name + '<span class="ui-li-aside" style="padding:0px 0px 0px 0px;"><div  id="line_' + val.permalink + '" class="rateit bigstars" ></div></span></li>';
       items.push(val.permalink);
       count++;
     });
-    //now append the buffered output to the listview and either refresh the listview or create it (meaning have jQuery Mobile style the list)
+    //now append the buffered output to the listview and either refresh the listview 
+    //or create it (meaning have jQuery Mobile style the list)
+    $('#mylist').empty();
     $('#mylist').append(output).listview('refresh');
     $('.rateit').rateit();
     count = 0;
     $.each(data, function (index, val) {
-      console.log("index:" + index);
       //get the saved value if there is one
       try {
         rating = 0;
-        if (localStorage.getItem(items[index])) {
-          rating = JSON.parse(localStorage.getItem(items[index])).rating;
+        attraction = JSON.parse(localStorage[val.permalink]);
+        console.log("attraction 1:"+attraction);
+        if (attraction) {
+          rating = attraction.rating;
         }
-        console.log("rating:" + rating);
-        $("#testrate" + count).rateit('value', rating);
+        $("#line_" + val.permalink).rateit('value', rating);
       } catch (ex) { console.log("error:" + ex) }
 
       //save the rating and park info
-      $("#testrate" + count).bind('rated', function (event, value) {
-        var attraction = {};
-        attraction.name = items[index];
+      //TODO move this to a function
+      $("#line_" + val.permalink).bind('rated', function (event, value) {
+        //console.log(" setting item:" + items[index] + " to value:" value);
+        attraction = {};
+        attraction.name = val.short_name;
+        attraction.permalink = val.permalink;
         attraction.rating = value;
-        attraction.park = park;
-        localStorage.setItem(items[index], JSON.stringify(attraction));
+        attraction.park = sessionStorage.park;
+        console.log("saving attraction: " + JSON.stringify(attraction));
+        localStorage.setItem(val.permalink, JSON.stringify(attraction));
         //recalc the average
-        calcAverage();
+        calcAverage(park);
 
       });
       
-      $("#testrate" + count).bind('reset', function () {
+      //TODO move this to a function
+      $("#line_" + val.permalink).bind('reset', function () {
         //remove from localStorage
         //TODO set the rating to zero instead of removing the object?
-        localStorage.removeItem(items[index]);
+        localStorage.removeItem(val.permalink);
         calcAverage();
       });
       count++;
     });
 
 
-    calcAverage();
+    calcAverage(park);
   }
 }
 
 
 
-function calcAverage() {
+
+
+function calcAverage(park) {
+  console.log("calculate average for park: " + park);
   //calculate the average
   var total = 0.0;
-  count = 0;
+  var rating = 0;
+  var count = 0;
+  var rating, attraction;
+
   for (i = 0; i < localStorage.length; i++) {
     //only figure attractions for this park into the equation
-    console.log(localStorage[localStorage.key(i)]);
-    var thisPark = JSON.parse(localStorage[localStorage.key(i)]).park;
-    if (park == thisPark) {
-      var rating = JSON.parse(localStorage[localStorage.key(i)]).rating;
-      console.log("park:" + thisPark + " rating:" + rating);
+    attraction = JSON.parse(localStorage[localStorage.key(i)]);
+    console.log("attraction 2:"+localStorage[localStorage.key(i)]);
+    if (park == attraction.park) {
+      rating = attraction.rating;
+      if (isNaN(rating)) {
+        rating = 0;
+      }
+      // if (localStorage[localStorage.key(i)]) {
+      //   rating = localStorage[localStorage.key(i)].rating;
+      // }   
       total = total + parseFloat(rating);
+      console.log("rating for:" + attraction.name + " rating:" + rating);
       count++;
     }
   }
@@ -115,21 +127,18 @@ function calcAverage() {
   if (isNaN(raw)) {
     raw = 0;
   }
+  console.log("setting average to:" + Math.round(raw * 100) / 100);
   //set the average value on the div
   $("#average").text(Math.round(raw * 100) / 100);
 }
 
 //TODO calculate the percentage of attractions rated
 function calcPercent() {
-
 }
 
-//set headers
-//if (park == "mk") {
-//$("#theHeader.h1").html("<b>Magic Kingdom</b>");
-
-//}
-
+//based on attraction ratings suggest similar attractions you may like
+function attractionSuggestions() {
+}
 
 
 

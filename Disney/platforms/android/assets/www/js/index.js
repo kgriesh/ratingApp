@@ -18,57 +18,33 @@
  */
 
 
-$(document).ready(function() {
-  console.log("index.js document ready!!!");
-  $("#mk_button").click(function() {
-    console.log("clicked!");
-    window.sessionStorage.setItem('park', 'mk');
-    //alert("clicked!");
+ $(document).on('pagebeforeshow', '#index', function(){ 
+   console.log("index.js pagebeforeshow");
+   $("#mk_button").click(function() {
+     sessionStorage.setItem('park', 'mk');
+     sessionStorage.setItem('parkUrl', 'magic-kingdom');
+     sessionStorage.setItem('parkTitle', 'Magic Kingdom');
+   });
+     $("#ak_button").click(function() {
+     sessionStorage.setItem('park', 'ak');
+     sessionStorage.setItem('parkUrl', 'animal-kingdom');
+     sessionStorage.setItem('parkTitle', 'Animal Kingdom');
+   });
+   $("#ep_button").click(function() {
+     sessionStorage.setItem('park', 'ep');
+     sessionStorage.setItem('parkUrl', 'epcot');
+     sessionStorage.setItem('parkTitle', 'Epcot');
+   });
+   $("#hs_button").click(function() {
+     sessionStorage.setItem('park', 'hs');
+     sessionStorage.setItem('parkUrl', 'hollywood-studios');
+     sessionStorage.setItem('parkTitle', 'Hollywood Studios');
+   });
 
-  });
-});
+    $("#clearAll").click(function() {
+     localStorage.clear();
+     console.log("Cleared!");
+   });
+ });
 
 
-var app = {
-  // Application Constructor
-  initialize: function () {
-    this.bindEvents();
-  },
-  // Bind Event Listeners
-  //
-  // Bind any events that are required on startup. Common events are:
-  // 'load', 'deviceready', 'offline', and 'online'.
-  bindEvents: function () {
-    document.addEventListener('deviceready', this.onDeviceReady, false);
-  },
-  // deviceready Event Handler
-  //
-  // The scope of 'this' is the event. In order to call the 'receivedEvent'
-  // function, we must explicity call 'app.receivedEvent(...);'
-  onDeviceReady: function () {
-    app.receivedEvent('deviceready');
-
-    function getHref(aElem, park) {
-      //set the selected park in the session
-      window.sessionStorage.setItem('park', park);
-      aElem.href = "attractionList.html";
-    }
-
-    jQuery('#mkbutton').bind('click', function (event) {
-      alert("hello?");
-      window.sessionStorage.setItem('park', park);
-      aElem.href = "attractionList.html";
-    });
-  },
-  // Update DOM on a Received Event
-  receivedEvent: function (id) {
-    //var parentElement = document.getElementById(id);
-    //var listeningElement = parentElement.querySelector('.listening');
-    //var receivedElement = parentElement.querySelector('.received');
-
-    //listeningElement.setAttribute('style', 'display:none;');
-    //receivedElement.setAttribute('style', 'display:block;');
-
-    console.log('Received Event: ' + id);
-  }
-};
