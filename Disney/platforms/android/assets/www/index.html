@@ -26,6 +26,7 @@
     <link rel="stylesheet" type="text/css" href="css/index.css"/>
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css">
     <link rel="stylesheet" href="lib/plugins/rateIt/src/rateit.css">
+    <link rel="stylesheet" href="lib/plugins/rateIt/src/bigstars.css">
 
     <script type="text/javascript" src="cordova.js"></script>
     <script src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
@@ -64,14 +65,14 @@
         <ul data-role="listview" data-inset="true" data-dividertheme="c">
             <!--<li data-role="list-divider">Choose ...</li> -->
             <!--<li><input type="button" id="mk_button" rel="external">Magic Kingdom</li>-->
-            <li><a href="#attractionList" id="mk_button" rel="external">Magic Kingdom</a></li>
+            <li><a href="#attractionList" id="mk_button">Magic Kingdom</a></li>
             <li><a href="#attractionList" id="ak_button">Animal Kingdom</a></li>
             <li><a href="#attractionList" id="ep_button">Epcot</a></li>
             <li><a href="#attractionList" id="hs_button">Hollywood Studios</a></li>
         </ul>
     </div>
 
-    <div id="clearAll">Clear all</div>
+    <div id="clearAll" style="padding: 0 0 0 5px">Clear all</div>
     
    
     <div data-role="footer">
@@ -85,10 +86,7 @@
     </div>
     <div data-role="content">
         Average rating is <span id="average"></span> out of 5
-        <div>
-            <span id="testratevalue"></span>
-            <span id="testratehover"></span>
-        </div>
+
         <ul id="mylist" data-role="listview" data-inset="true" data-dividertheme="b">
         </ul>
     </div>

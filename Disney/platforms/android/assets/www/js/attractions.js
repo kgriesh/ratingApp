@@ -1,15 +1,12 @@
 
 
-$(document).on('pagebeforeshow', '#attractionList', function(event){   
-  console.log("pagebeforeshow attractions.js");
-  //console.log(data.prevPage.attr('park'));
+var attractionCount;
 
-  //var parameters = $(this).data("url").split("?")[1];
+$(document).on('pagebeforeshow', '#attractionList', function(event){   
+  
   //localStorage.clear();
-  //get the selected park
-  var park = sessionStorage.park;
+
   var theUrl;
-  console.log("park:"+park);
 
   //set the header value
   $('h1').empty();
@@ -23,40 +20,36 @@ $(document).on('pagebeforeshow', '#attractionList', function(event){
         async: true,
         success: function (result) {
           console.log("success!");
-          ajax.parseJSON(result, park);
+          ajax.parseJSON(result);
         },
         error: function (request,error) {
             alert('Network error has occurred please try again!');
         }
     }); 
-
  });
  
 var ajax = {  
-  parseJSON:function(data, park){
+  parseJSON:function(data){
     var output = '';
     var items = []; //put all link names into an array
-    var count = 0;
     var attraction;
     var rating;
     $.each(data, function (index, val) {
       //add each value to the output buffer
-      output += '<li>' + val.short_name + '<span class="ui-li-aside" style="padding:0px 0px 0px 0px;"><div  id="line_' + val.permalink + '" class="rateit bigstars" ></div></span></li>';
+      output += '<li>' + val.short_name + '<span class="ui-li-aside" style="padding:0 20 0 0;"><div  id="line_' + val.permalink + '" class="rateit" ></div></span></li>';
       items.push(val.permalink);
-      count++;
+      attractionCount++;
     });
     //now append the buffered output to the listview and either refresh the listview 
     //or create it (meaning have jQuery Mobile style the list)
     $('#mylist').empty();
     $('#mylist').append(output).listview('refresh');
     $('.rateit').rateit();
-    count = 0;
     $.each(data, function (index, val) {
       //get the saved value if there is one
       try {
         rating = 0;
         attraction = JSON.parse(localStorage[val.permalink]);
-        console.log("attraction 1:"+attraction);
         if (attraction) {
           rating = attraction.rating;
         }
@@ -72,35 +65,30 @@ var ajax = {
         attraction.permalink = val.permalink;
         attraction.rating = value;
         attraction.park = sessionStorage.park;
-        console.log("saving attraction: " + JSON.stringify(attraction));
         localStorage.setItem(val.permalink, JSON.stringify(attraction));
         //recalc the average
-        calcAverage(park);
+        calcAverage();
+        calcPercentRated();
 
       });
       
       //TODO move this to a function
       $("#line_" + val.permalink).bind('reset', function () {
         //remove from localStorage
-        //TODO set the rating to zero instead of removing the object?
         localStorage.removeItem(val.permalink);
         calcAverage();
+        calcPercentRated();
       });
-      count++;
     });
 
-
-    calcAverage(park);
+    calcAverage();
   }
 }
 
 
 
-
-
-function calcAverage(park) {
-  console.log("calculate average for park: " + park);
-  //calculate the average
+function calcAverage() {
+  
   var total = 0.0;
   var rating = 0;
   var count = 0;
@@ -109,8 +97,7 @@ function calcAverage(park) {
   for (i = 0; i < localStorage.length; i++) {
     //only figure attractions for this park into the equation
     attraction = JSON.parse(localStorage[localStorage.key(i)]);
-    console.log("attraction 2:"+localStorage[localStorage.key(i)]);
-    if (park == attraction.park) {
+    if (sessionStorage.park == attraction.park) {
       rating = attraction.rating;
       if (isNaN(rating)) {
         rating = 0;
@@ -133,7 +120,20 @@ function calcAverage(park) {
 }
 
 //TODO calculate the percentage of attractions rated
-function calcPercent() {
+function calcPercentRated() {
+  var rated, raw;
+  for (i = 0; i < localStorage.length; i++) {
+    //only figure attractions for this park into the equation
+    attraction = JSON.parse(localStorage[localStorage.key(i)]);
+    if (sessionStorage.park == attraction.park) {
+      rated++;
+    }
+  }
+  raw = attractionCount / rated;
+  if (isNaN(raw)) {
+    raw = 0;
+  }
+  $("#percentRated").text(raw * 10);
 }
 
 //based on attraction ratings suggest similar attractions you may like

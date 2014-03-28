@@ -16,8 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-
+ 
  $(document).on('pagebeforeshow', '#index', function(){ 
    console.log("index.js pagebeforeshow");
    $("#mk_button").click(function() {
@@ -46,5 +45,11 @@
      console.log("Cleared!");
    });
  });
-
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 
